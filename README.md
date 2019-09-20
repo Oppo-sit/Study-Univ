@@ -1,2 +1,6 @@
 # Study-Univ
-Memorize my study.
+
+I'm a student studying at sangmyeong Univ.
+
+I make this space for memorize and study several subjects about my major I have studied.
+
