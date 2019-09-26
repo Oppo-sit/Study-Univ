@@ -1,9 +1,6 @@
-# Big-data analyzing
+# Study-Univ
 
-'Big-data analyzing' branch is a code-archive that I have practiced since this semester.
+I'm a student studying at sangmyeong Univ.
 
-I'm using spark and practicing on jupyter notebook.
+I make this space for memorize and study several subjects about my major I have studied.
 
-I'll also upload some trouble shooting, caused by environment and codes.
-
-URL for studying this subject : https://nbviewer.jupyter.org/github/smu405/s/tree/master/
