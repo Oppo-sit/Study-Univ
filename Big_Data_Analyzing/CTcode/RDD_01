@@ -1,0 +1,27 @@
+Python 괄호의 의미
+
+[ ] List
+( ) Tuple
+{ } Dictionary
+
+코드 분석
+
+myRdd2\
+    .flatMap(lambda x:x.split())\
+    .map(lambda x:(x,1))\
+    .groupByKey()\
+    .mapValues(sum)\
+    .take(20)
+    
+flatMap 1차원 리스트로 모든 단어를 분해
+map x:(x,1) 모든 단어를 키로 가정하여 (Key,1)로 저장
+groupByKey() key값이 같은, 즉, 같은 단어를 그룹화
+mapValues(sum) 같은 key값을 가진 집합의 개수만큼 sum -> 단어 수 =value
+take(20) 리스트 내 pair RDD에서 20줄 불러옴, 원래 lazy 연산이었으므로 이 때 sum 함수가 처리된다.
+
+
+reduceByKey() 키별로 빈도를 합산(인자 2개를 받아서 1개로 병합) RDD로 저장
+
+groupByKey() key값이 같은 쌍을 그룹화
+
+countByKey() reduceByKey()와 같지만 dictionary형으로 저장
