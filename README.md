@@ -1,6 +1,5 @@
-# Study-Univ
+# Web DB Programming
 
-I'm a student studying at sangmyeong Univ.
+This page covers a subject about relational database with mySql.
 
-I make this space for memorize and study several subjects about my major I have studied.
-
+These files are the codes I've learned during class hour, and they are divided by function.
