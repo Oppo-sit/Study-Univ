@@ -1,0 +1,98 @@
+Rdd Description
+
+rdd의 생성 - 외부, 내부
+    sparkcontext를 이용하여 생성한다.
+        외부 - 함수 textFile("mydir/")
+                    textFile("mydir/*.txt")
+                    textFile("mydir/*.gz")
+                    Hadoop InputFormat
+        
+        내부 - 함수 Parallelize
+        
+
+*dataFrame 사용할 때 spark-warehouse 경로를 설정하는 법
+spark = pyspark.sql.SparkSession.builder\
+    .master("local")\
+    .appName("myApp")\
+    .config("spark.sql.warehouse.dir", "C:/Users/G312(경로는 master 디렉토리)")\
+    .getOrCreate()
+
+
+
+csv 파일로 RDD 생성 및 이용
+
+myRdd4 = spark.sparkContext\
+    .textFile(os.path.join("data","ds_spark_2cols.csv")) // csv 포맷에 대한 Rdd 파일을 생성
+myRdd4.take(5) // 5열까지의 데이터를 불러온다
+
+transformation 
+
+기존 프로그래밍과 달리 spark는 transformation 연산에 대해 lazy연산을 한다.(변환이 action 함수가 수행되는 시점까지 늦춰진다.)
+
+Map 함수    
+
+myRdd5 = myRdd4.map(lambda line: line.split(',')) // 2차원 리스트 
+myRdd5.take(5)
+
+nRdd = spark.sparkContext.parallelize([1, 2, 3, 4])
+squared = nRdd.map(lambda x: x * x)
+print squared    // 아직 실제 값이 없으며 반환 값은 RDD(껍데기만 있음)
+
+print squared.collect() // 실제 값이 생성되면서 반환된다.
+
+
+map 함수는 각 요소에 대해 계산을 하고, 그 값을 반환한다.
+
+flatMap 함수
+
+flatMap 함수는 다차원(2~) 리스트를 1차원 함수로 만들어준다.
+
+groupByKey 함수
+
+groupByKey 함수는 데이터를 Key에 따라 그루핑 시켜준다.
+
+
+
+
+파이썬에도 map함수 존재, map(fn, data)의 구성으로 for문을 쓰지 않고 저 함수 하나만으로 리스트 내의 data에 대해 함수를 한 번에 실행하여 반환한다.
+
+lambda 함수 -> 함수를 즉시 정의시켜주어 함수를 따로 정의하지 않고 바로바로 사용할 수 있게 해준다.
+
+reduce 함수
+
+reduce 함수는 함수를 반복적으로 적용하여 결과 값을 만들게 된다.
+ [ func(func(s1, s2),s3), ... , sn ]의 형태로 실행하는 것이다.
+reduce(lambda x, y: x*y, range(1,5)) -> 1부터 4까지 곱하기 연산을 수행
+for 함수를 대체하여 사용한다.
+
+
+
+단순 통계 기능
+
+간단한 함수(sum, min, max, stdev->표준편차 등)를 통해 서술 통계를 낼 수 있다.
+
+
+stopwords(불용어) : 세어도 의미가 없는 대명사나 한 글자 단어등
+ filter함수를 통해 제거해주는 게 좋다.
+ 
+ 
+ 
+ 
+ 
+ 
+OLTP -> OLAP으로 변환이 이루어진다.
+    OLTP : Online Transaction Processing
+    OLAP : Online Analytical Processing
+    
+
+spark는 작업을 pipeline방식으로 처리한다.
+    pipeline : 함수를 연이어 적용하는 방식(여러 함수를 마치 하나의 함수처럼 실행)
+    
+    wordsLength = wordsRdd\
+    .map(len)\
+    .collect()
+    
+    map함수와 collect함수를 중간 결과 없이 연이어 처리하여 최종 결과만 도출 -> 효율을 높인다
+    
+GroupBy 함수 transformation 함수이며 unpaired RDD에 많이 쓰임(groupByKey 함수와 다른 함수임)
+    myRdd_group=myRdd2.groupBy(lambda x:x[0:2]) // 각 줄의 첫 두 글자를 Key로 삼아 문장을 그루핑
