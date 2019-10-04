@@ -1,0 +1,19 @@
+split(조건) 함수 -> 줄 별로 읽으며 조건에 따라 문장을 구분
+
+lambda
+함수 안에 넣을 함수자리에 lambda 함수를 쓰면 내가 원하는 함수를 직접 정의해서 바로바로 넣을 수 있다.
+
+python에서의 map(), filter(), reduce()
+
+map(fn, data) -> 각 데이터 요소에 함수를 적용해서 list를 반환
+filter(fn, data) -> 각 데이터 요소에 함수의 결과 중 TRUE인 것을 골라 list로 반환
+reduce(fn, data) -> 각 데이터 요소에 함수를 적용해서 list를 반환
+단, reduce()의 경우 [func(func(s1, s2),s3), ... , sn ] 방식으로 반복적으로 수행한다.
+
+Rdd에서의 map(), filter(), reduce()
+
+upperRDD =wordsRdd.map(lambda x: x[0].upper())
+wordsRdd에 대해 'lambda 함수를 적용'하여 upperRDD에 '저장'하는 역할을 map이 한다.
+
+
+collect(), take() 등을 통해 나오는 결과값은 '리스트'이다.
