@@ -1,0 +1,53 @@
+use sqlDB;
+
+#CREATE TABLE 생성과정에서 column을 만듦과 동시에 외래 키를 생성한다.
+
+DROP TABLE IF EXISTS buyTBL;
+
+CREATE TABLE buyTBL
+(num INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+userID CHAR(8) NOT NULL, FOREIGN KEY (userID) REFERENCES userTBL(userID),
+prodName CHAR(6) NOT NULL, groupName CHAR(4) NULL,
+price INT NOT NULL, amount SMALLINT NOT NULL);
+
+SHOW INDEX FROM buyTBL;
+
+#모든 column을 다 넣고 마지막에 FK 제약조건을 부여
+
+DROP TABLE IF EXISTS buyTBL;
+
+CREATE TABLE buyTBL
+(num INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+userID CHAR(8) NOT NULL, prodName CHAR(6) NOT NULL, 
+groupName CHAR(4) NULL, price INT NOT NULL, amount SMALLINT NOT NULL,
+CONSTRAINT FK_userTBL_buyTBL FOREIGN KEY(userID) REFERENCES userTBL(userID));
+
+SHOW INDEX FROM buyTBL; #Key_name에 FK_userTBL_buyTBL(FK의 이름)이 나온다.
+
+#ALTER TABLE을 통해 FK 제약조건을 추가한다.
+
+DROP TABLE IF EXISTS buyTBL;
+
+CREATE TABLE buyTBL
+(num INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+userID CHAR(8) NOT NULL, prodName CHAR(6) NOT NULL, 
+groupName CHAR(4) NULL, price INT NOT NULL, amount SMALLINT NOT NULL
+);
+
+ALTER TABLE buytbl
+	ADD CONSTRAINT FK_userTBL_buyTBL FOREIGN KEY(userID) REFERENCES userTBL(userID);
+    
+SHOW INDEX FROM buyTBL;
+
+#FK의 변경이 필요할 시 foreign key를 삭제한 후 다시 추가해야 한다.
+
+ALTER TABLE buytbl
+	DROP FOREIGN KEY FK_userTBL_buyTBL; #FK 버림
+ALTER TABLE buytbl
+	ADD CONSTRAINT KF_UU_BB FOREIGN KEY (userID) REFERENCES userTBL(userID)
+    ON UPDATE CASCADE; #FK 변경(이름 변경, update cascade 추가)
+    
+SHOW INDEX FROM buyTBL; #key_name : FK_userTBL_buyTBL -> KF_UU_BB
+
+
+
